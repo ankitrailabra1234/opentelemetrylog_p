@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy==1.4.49
+aiomysql
+pydantic
+cryptography
+
+opentelemetry-api>=1.25.0
+opentelemetry-sdk>=1.25.0
+opentelemetry-exporter-otlp>=1.25.0
+opentelemetry-instrumentation-fastapi>=0.46b0
+opentelemetry-instrumentation-logging>=0.46b0
+opentelemetry-semantic-conventions>=0.46b0
+
