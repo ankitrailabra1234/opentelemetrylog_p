@@ -10,13 +10,13 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./mysql-init:/docker-entrypoint-initdb.d
+      - ./mysql-init:/docker-entrypoint-initdb.d 
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
-    command: ["--config=/etc/otelcol/config.yaml"]
+    command: ["--config=/etc/otel/config.yaml"]
     volumes:
-      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+      - ./otel-collector-config.yaml:/etc/otel/config.yaml
     ports:
       - "4317:4317"
       - "4318:4318"
@@ -26,19 +26,27 @@ services:
     depends_on:
       - mysql
       - otel-collector
+    command: >
+      opentelemetry-instrument
+      --traces_exporter otlp
+      --metrics_exporter none
+      --logs_exporter otlp
+      python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
     environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: fastapi-otel-app
+      OTEL_PYTHON_LOG_CORRELATION: "true"
+      OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED: "true"   
+      DB_HOST: mysql
       DB_USER: example
       DB_PASS: examplepass
-      DB_HOST: mysql
       DB_NAME: exampledb
-      DB_PORT: "3306"
-      OTEL_COLLECTOR_HOST: otel-collector
-      OTEL_COLLECTOR_PORT: "4317"
-      OTEL_SERVICE_NAME: fastapi-otel-app
+      DB_PORT: 3306
+
     ports:
       - "8000:8000"
 
 volumes:
   db_data:
-
-

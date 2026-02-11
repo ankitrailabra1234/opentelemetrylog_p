@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 DB_USER = os.getenv("DB_USER", "example")
 DB_PASS = os.getenv("DB_PASS", "examplepass")
-DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_HOST = os.getenv("DB_HOST", "mysql")
 DB_NAME = os.getenv("DB_NAME", "exampledb")
 DB_PORT = os.getenv("DB_PORT", "3306")
 
@@ -19,4 +19,3 @@ AsyncSessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
-

@@ -4,7 +4,8 @@ SQLAlchemy==1.4.49
 aiomysql
 pydantic
 cryptography
-
+opentelemetry-distro
+opentelemetry-instrumentation-fastapi
 opentelemetry-api>=1.25.0
 opentelemetry-sdk>=1.25.0
 opentelemetry-exporter-otlp>=1.25.0
