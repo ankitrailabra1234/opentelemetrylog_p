@@ -7,24 +7,15 @@ from sqlalchemy.exc import OperationalError
 from .database import AsyncSessionLocal, engine, Base
 
 
-# ---------------------------
-# Logger
-# ---------------------------
 logger = logging.getLogger("app")
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
 logger.addHandler(handler)
 
 
-# ---------------------------
-# FastAPI app
-# ---------------------------
 app = FastAPI(title="FastAPI + MySQL + OpenTelemetry demo")
 
 
-# ---------------------------
-# Routes
-# ---------------------------
 @app.get("/")
 async def root():
     logger.info("Root endpoint hit")
@@ -38,9 +29,6 @@ async def create_item():
     return {"status": "created"}
 
 
-# ---------------------------
-# Startup: wait for DB
-# ---------------------------
 @app.on_event("startup")
 async def startup():
     logger.info("Starting API...")
